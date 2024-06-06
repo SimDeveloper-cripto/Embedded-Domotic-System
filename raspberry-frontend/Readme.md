@@ -1,0 +1,1 @@
+### Here insert structure of the react project (used with raspberry)

@@ -64,16 +64,7 @@ class Broker:
 
     @staticmethod
     def _performAction(obj, value):
-        arduino_ip = ""  # Insert here Arduino'IP
-        base_url = f"http://{arduino_ip}/{obj}"
-
-        if obj == "led":
-            match value:
-                case "high":
-                    http = HTTPClient(base_url + "/high")
-                    http.get(params=None)
-                case "low":
-                    http = HTTPClient(base_url + "/low")
-                    http.get(params=None)
-                case _:
-                    print("Wrong Request submitted!")
+        arduino_ip = ""  # Insert here Arduino'IP (should use .env file)
+        base_url = f"http://{arduino_ip}/{obj}/{value}"
+        http = HTTPClient(base_url)
+        http.get(params=None)

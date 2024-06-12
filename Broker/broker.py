@@ -1,5 +1,6 @@
 import paho.mqtt.client as mqtt
 import json
+from httpClient import HTTPClient
 
 
 class Broker:
@@ -47,7 +48,7 @@ class Broker:
             obj     = content["object"]
             value   = content["value"]
             print(f"Object: {obj}, Value: {value}")
-            self._performAction(obj, value)
+            self._performAction(obj.lower(), value.lower())
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
         except KeyError as e:
@@ -61,5 +62,18 @@ class Broker:
         self.client.loop_stop()
         self.client.disconnect()
 
-    def _performAction(self, obj, value):
-        pass
+    @staticmethod
+    def _performAction(obj, value):
+        arduino_ip = ""  # Insert here Arduino'IP
+        base_url = f"http://{arduino_ip}/{obj}"
+
+        if obj == "led":
+            match value:
+                case "high":
+                    http = HTTPClient(base_url + "/high")
+                    http.get(params=None)
+                case "low":
+                    http = HTTPClient(base_url + "/low")
+                    http.get(params=None)
+                case _:
+                    print("Wrong Request submitted!")

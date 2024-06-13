@@ -1,6 +1,6 @@
 import paho.mqtt.client as mqtt
 import json
-from httpClient import HTTPClient
+import requests
 
 
 class Broker:
@@ -48,7 +48,7 @@ class Broker:
             obj     = content["object"]
             value   = content["value"]
             print(f"Object: {obj}, Value: {value}")
-            self._performAction(obj.lower(), value.lower())
+            self._performAction(obj.lower(), value.lower(), content)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
         except KeyError as e:
@@ -63,8 +63,18 @@ class Broker:
         self.client.disconnect()
 
     @staticmethod
-    def _performAction(obj, value):
-        arduino_ip = ""  # Insert here Arduino'IP (should use .env file)
+    def _performAction(obj, value, content):
+        arduino_ip = "192.168.1.25"  # Insert here Arduino'IP (should use .env file)
         base_url = f"http://{arduino_ip}/{obj}/{value}"
-        http = HTTPClient(base_url)
-        http.get(params=None)
+
+        print(f"BASE URL: {base_url}")
+
+        if obj == "led":
+            if "number" in content:
+                led_number = content["number"]
+                url = f"{base_url}/{led_number}"
+                response = requests.get(url)
+                if response.status_code == 200:
+                    print("Request successful [200 OK]")
+                else:
+                    print(f"Response received from Arduino: {response}")

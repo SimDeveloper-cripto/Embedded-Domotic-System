@@ -2,9 +2,9 @@
 #include <ESP8266WebServer.h>
 
 ESP8266WebServer server(80);
-const char* ssid     = "Vodafone-C00730173"; // Insert here your SSID
-const char* password = "sediasette7";        // Insert here your Password
-const int LED_1 = 3;                         // LED D3 is mapped on number "1"
+const char* ssid     = ""; // Insert here your SSID
+const char* password = ""; // Insert here your Password
+const int LED_1 = 3;       // LED D3 is mapped on number "1"
 
 /*
   void handleWrongRequest() {

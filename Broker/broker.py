@@ -64,7 +64,7 @@ class Broker:
 
     @staticmethod
     def _performAction(obj, value, content):
-        arduino_ip = "192.168.1.25"  # Insert here Arduino'IP (should use .env file)
+        arduino_ip = "192.168.1.25"  # Insert here Arduino'IP (TODO: should use .env file)
         base_url = f"http://{arduino_ip}/{obj}/{value}"
 
         print(f"BASE URL: {base_url}")

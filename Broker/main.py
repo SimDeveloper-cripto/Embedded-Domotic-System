@@ -3,7 +3,7 @@ from broker import Broker
 
 
 def run():
-    topics = ["lights/topic"]  # Think about other topics
+    topics = ["lights/topic"]  # Should think about other topics (doors, for example)
     broker = Broker("localhost", 1883, topics=topics)
     broker.start()
 

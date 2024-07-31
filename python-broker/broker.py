@@ -48,7 +48,7 @@ class Broker:
             obj     = content["object"]
             value   = content["value"]
             print(f"Object: {obj}, Value: {value}")
-            self._performAction(obj.lower(), value.lower(), content)
+            self._performAction(obj.lower(), value.upper(), content)
         except json.JSONDecodeError as e:
             print(f"Failed to decode JSON: {e}")
         except KeyError as e:
@@ -74,6 +74,7 @@ class Broker:
                 led_number = content["number"]
                 url = f"{base_url}/{led_number}"
                 response = requests.get(url)
+                print(f"REQUEST: {url}")
                 if response.status_code == 200:
                     print("Request successful [200 OK]")
                 else:

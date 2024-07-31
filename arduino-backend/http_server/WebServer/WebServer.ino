@@ -71,7 +71,7 @@ void loop() {
     while (client.connected()) {
       if (client.available()) {
         char c = client.read();
-        // Serial.write(c);
+        Serial.write(c);
         request += c;
 
         if (c == '\n' && currentLineIsBlank) {
@@ -83,13 +83,15 @@ void loop() {
           client.println("Content-type:text/html");
           client.println();
 
-          if (request.indexOf("GET / ") != -1) {
+          if (request.indexOf("GET /") != -1) {
             client.println("<h3><center><p>ARDUINO UNO R4 WIFI WEB SERVER ON 192.168.1.25:80</p></center></h3>");
           } else if (request.indexOf("GET /led/HIGH/1") != -1) {
+            // TODO: THIS CODE BLOCK DOES NOT GET EXECUTED
             lightUpLED(LED_1);
             client.println("LED_1 is now ON!");
             Serial.println("LED_1 is now ON!");
           } else if (request.indexOf("GET /led/LOW/1") != -1) {
+            // TODO: THIS CODE BLOCK DOES NOT GET EXECUTED
             turnOffLED(LED_1);
             client.println("LED_1 is now OFF!");
             Serial.println("LED_1 is now OFF!");

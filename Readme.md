@@ -1,15 +1,15 @@
-# A Domotic System For Your House
+# Overview: A Domotic System For Your House
+
+The project is not finished. It does not work for now, so please don't use it :)
 
 ## Requirements
 
-* OS: Windows 11
-* Python: 3.12
-* Zig: 0.13.0
-* Arduino Uno R4 Wifi
+* __OS__: Windows 11
+* __Python__: 3.12
+* __Zig__: 0.13.0
+* __Arduino Uno R4 Wifi__
 
-The frontend consists in a Zig app made with Raylib and Raygui. <br />
-Shout out to: https://github.com/Not-Nik/raylib-zig.git. <br />
-
+Shout out to: <https://github.com/Not-Nik/raylib-zig.git>. <br />
 Quick setup if you also want to try it: <br />
 
 ```bash
@@ -21,23 +21,29 @@ cd Project && zig build run
 
 ## Project's Structure
 
+The frontend consists in a Zig app made with Raylib and Raygui which communicates with a Python script via __Socket__. <br />
+Architecture developed: __client-server__, with the Zig app being the client. <br />
+The Python script communicates via __HTTP__ with the Arduino (it provides some endpoints), which handles all the user requests. <br />
+
+* Show JSON package structure. <br />
+
 ## Run
 
-* Step 1: Modify these two lines and then upload to your Arduino. <br />
+* __Step 1__: Modify these two lines and then upload to your Arduino. <br />
 
 ```bash
 const char* WIFI_SSID = ""; /* Here insert your SSID */
 const char* WIFI_PASS = ""; /* Here insert your PASSWORD */
 ```
 
-* Step 2: Run Python Script. <br />
+*__Step 2__: Run Python Script. <br />
 
 ```bash
 cd python_backend_server_socket
 ./execute.bat
 ```
 
-* Step 3: Run Zig Application. <br />
+* __Step 3__: Run Zig Application. <br />
 
 ```bash
 cd zig_app/Project

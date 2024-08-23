@@ -1,27 +1,33 @@
-/* PERSONAL LIBRARY [CUSTOM] */
-#include "MyAnimationLib.h"
-#include "ArduinoSecrets.h"
+/* PERSONAL LIBRARIES [CUSTOM] */
+// #include "MyAnimationLib.h"
+// #include "ArduinoSecrets.h"
 
 /* PROJECT LIBRARIES */
 #include <WiFiS3.h>
-#include <LiquidCrystal_I2C.h>
+// #include <LiquidCrystal_I2C.h>
 
 /* OBJECTS */
 WiFiServer server(80);
-MyAnimationLib myAnimLib;
+// MyAnimationLib myAnimLib;
 // LiquidCrystal_I2C lcd(0x27, 16, 2);
 
+const char* WIFI_SSID = ""; /* Here insert your SSID */
+const char* WIFI_PASS = ""; /* Here insert your PASSWORD */
+
 int status = WL_IDLE_STATUS;
-const int LED_1 = 3;
+const int LED_PINS[] = {3, 4, 5, 6};
+const int NUM_LED_PINS = sizeof(LED_PINS) / sizeof(LED_PINS[0]);
 
 void setup() {
   Serial.begin(9600);
-  myAnimLib.init();
+  // myAnimLib.init();
   // lcd.init();
   // lcd.backlight();
 
-  pinMode(LED_1, OUTPUT);
-  digitalWrite(LED_1, LOW);
+  for (int i = 0; i < NUM_LED_PINS; i++) {
+    pinMode(LED_PINS[i], OUTPUT);
+    digitalWrite(LED_PINS[i], LOW);
+  }
 
   if (WiFi.status() == WL_NO_MODULE) {
     Serial.println("Communication with WiFi module failed!");
@@ -34,7 +40,7 @@ void setup() {
 
   while (status != WL_CONNECTED) {
     Serial.println("Attempting to connect to Network ");
-    status = WiFi.begin(SSID, PASS);
+    status = WiFi.begin(WIFI_SSID, WIFI_PASS);
     delay(3000);
   }
 
@@ -56,16 +62,13 @@ void setup() {
 
 void loop() {
   delay(1000);
-  myAnimLib.play();
-
+  // myAnimLib.play();
   // lcd.setCursor(0, 0);
   // lcd.print("Welcome!");
 
   WiFiClient client = server.available(); // Listen for incoming client connections
-
   if (client) {
-    String currentLine = "";
-    String request = "";
+    String currentLine = "", request = "";
     boolean currentLineIsBlank = true;
 
     while (client.connected()) {
@@ -78,25 +81,15 @@ void loop() {
           Serial.print("Request: ");
           Serial.println(request);
 
-          // Send HTTP response
+          // Send HTTP Response
           client.println("HTTP/1.1 200 OK");
           client.println("Content-type:text/html");
+          client.println("Connection: keep-alive");
+          client.println("Keep-Alive: timeout=5, max=100");
           client.println();
 
-          if (request.indexOf("GET /") != -1) {
-            client.println("<h3><center><p>ARDUINO UNO R4 WIFI WEB SERVER ON 192.168.1.25:80</p></center></h3>");
-          } else if (request.indexOf("GET /led/HIGH/1") != -1) {
-            // TODO: THIS CODE BLOCK DOES NOT GET EXECUTED
-            lightUpLED(LED_1);
-            client.println("LED_1 is now ON!");
-            Serial.println("LED_1 is now ON!");
-          } else if (request.indexOf("GET /led/LOW/1") != -1) {
-            // TODO: THIS CODE BLOCK DOES NOT GET EXECUTED
-            turnOffLED(LED_1);
-            client.println("LED_1 is now OFF!");
-            Serial.println("LED_1 is now OFF!");
-          }
-
+          bool handled = handleRequest(request, client);
+          if (!handled) client.println("<h3><center><p>ARDUINO UNO R4 WIFI WEB SERVER ON 192.168.1.21:80</p></center></h3>");
           client.println();
           break;
         }
@@ -108,13 +101,12 @@ void loop() {
         }
       }
     }
-
-    client.stop();
-    Serial.println("Client Disconnected.");
+    Serial.println("Ready for next request...");
   }
+  client.stop();
 }
 
-void lightUpLED(const int LED) {
+void turnOnLED(const int LED) {
   digitalWrite(LED, HIGH);
   // TODO: NOTIFY ON LCD SCREEN
 }
@@ -122,4 +114,23 @@ void lightUpLED(const int LED) {
 void turnOffLED(const int LED) {
   digitalWrite(LED, LOW);
   // TODO: NOTIFY ON LCD SCREEN
+}
+
+bool handleRequest(String request, WiFiClient& client) {
+  for (int i = 0; i < NUM_LED_PINS; i++) {
+    String ledOnPath = "GET /led/HIGH/" + String(i + 1);
+    String ledOffPath = "GET /led/LOW/" + String(i + 1);      
+    if (request.indexOf(ledOnPath) != -1) {
+      turnOnLED(LED_PINS[i]);
+      client.println("LED_" + String(i + 1) + " is now ON!");
+      Serial.println("LED_" + String(i + 1) + " is now ON!");
+      return true;
+    } else if (request.indexOf(ledOffPath) != -1) {
+      turnOffLED(LED_PINS[i]);
+      client.println("LED_" + String(i + 1) + " is now OFF!");
+      Serial.println("LED_" + String(i + 1) + " is now OFF!");
+      return true;
+    }
+  }
+  return false;
 }

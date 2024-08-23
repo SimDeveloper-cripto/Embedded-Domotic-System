@@ -11,7 +11,7 @@ const Utils = @import("utils.zig").Utils;
 const Interface = @import("interface.zig").Interface;
 const ClientSocket = @import("client_socket.zig").ClientSocket;
 
-// GENERAL
+// GENERAL :)
 // TODO: FIGURE OUT WHY CLIENT DISCONNECTS AFTER JUST ONE REQUEST
 
 // ARDUINO

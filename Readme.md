@@ -48,7 +48,7 @@ Do not stop the execution. <br />
 
 * __Step 2__: Setup Python script. <br />
 
-* You could use PyCharm to do that, but install dependency:
+You could use an IDE to do that. Install dependencies:
 
 ```bash
 cd python_backend_server_socket

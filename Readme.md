@@ -79,4 +79,4 @@ cd zig_app/Project
 zig build run
 ```
 
-### TODO: CREATE DOCKER CONTAINER
+### TODO: CREATE DOCKER CONTAINER FOR THE APP

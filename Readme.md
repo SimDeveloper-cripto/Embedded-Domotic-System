@@ -28,7 +28,7 @@ I'll show you the json exchanged between communications:
 
 ```json
 {
-  "object": "led", // The type of the object you want to control.
+  "object": "led", // The type of the object you want to control
   "value": "HIGH", // HIGH or LOW
   "number": "1",   // A number from 1 to 4
 }
@@ -46,7 +46,7 @@ const char* WIFI_PASS = ""; /* Here insert your PASSWORD */
 Then, __run__ the code and have a look at the Serial Monitor. __Save__ the IP Address that will be shown. <br />
 Do not stop the execution. <br />
 
-*__Step 2__: Setup Python script. <br />
+* __Step 2__: Setup Python script. <br />
 
 * You could use PyCharm to do that, but install dependency:
 

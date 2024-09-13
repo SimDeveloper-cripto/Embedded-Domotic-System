@@ -1,7 +1,5 @@
 # Overview: A Domotic System For Your House
 
-The project is not finished. It does not work for now, so please don't use it :)
-
 ## Requirements
 
 * __OS__: Windows 11
@@ -54,7 +52,7 @@ Do not stop the execution. <br />
 
 ```bash
 cd python_backend_server_socket
-pip install dotenv
+pip install python-dotenv requests
 ```
 
 In the same folder create a __.env__ file in which you are going to specify the following:
@@ -63,13 +61,7 @@ In the same folder create a __.env__ file in which you are going to specify the 
 ARDUINO_IP="" // Paste the Arduino IP Address!
 ```
 
-* __Step 3__: Create and Run a Docker-Container. <br />
-
-```bash
-
-```
-
-* __Alternative to Step 3__: Run scripts separately on two different terminals: <br />
+* __Step 3__: Run scripts separately on two different terminals: <br />
 
 ```bash
 cd python_backend_server_socket
@@ -86,3 +78,5 @@ chmod +x execute.sh
 cd zig_app/Project
 zig build run
 ```
+
+### TODO: CREATE DOCKER CONTAINER

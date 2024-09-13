@@ -1,6 +1,5 @@
-// 1. git clone https://github.com/Not-Nik/raylib-zig.git [raylib-zig (c) Nikolas Wipper 2023]
-// 2. ./project_setup.ps1
-// 3. cd Project && zig build run
+// THANK YOU Nikolas Wipper (Not-Nik) FOR THE RAYLIB/RAYGUI .h FILES!
+// git clone https://github.com/Not-Nik/raylib-zig.git [raylib-zig (c) Nikolas Wipper 2023]
 
 const std = @import("std");
 const rl = @import("raylib");
@@ -10,16 +9,6 @@ const raygui = @cImport({
 const Utils = @import("utils.zig").Utils;
 const Interface = @import("interface.zig").Interface;
 const ClientSocket = @import("client_socket.zig").ClientSocket;
-
-// GENERAL :)
-// TODO: FIGURE OUT WHY CLIENT DISCONNECTS AFTER JUST ONE REQUEST
-
-// ARDUINO
-// TODO: BEFORE PUSHING TO REPO, COMMENT SSID AND PASS
-
-// ZIG
-// TODO: WHATCH OUT FOR MEMORY LEAKS ON ALLOCATORS
-// TODO: BEAUTIFY THE INTERFACE
 
 pub fn main() anyerror!void {
     rl.initWindow(600, 350, "House Lights Control Panel - Made with Raylib");

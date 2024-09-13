@@ -10,48 +10,49 @@ load_dotenv()
 
 class ServerSocket:
     def __init__(self, host, port):
-        self._host   = host
-        self._port   = port
+        self.__host   = host
+        self.__port   = port
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.server_socket.bind((self._host, self._port))
-        self.server_socket.listen(10)  # 10 MAX CONCURRENT
+        self.server_socket.bind((self.__host, self.__port))
+        self.server_socket.listen(10)  # 10 MAX CONCURRENT CONNECTIONS
 
     @property
     def host(self):
-        return self._host
+        return self.__host
 
     @host.setter
     def host(self, hostValue):
-        self._host = hostValue
+        self.__host = hostValue
 
     @property
     def port(self):
-        return self._port
+        return self.__port
 
     @port.setter
     def port(self, portValue):
-        self._port = portValue
+        self.__port = portValue
 
     def start(self):
-        print(f"[+] Server Socket started on {self._host}:{self._port}, waiting for connections!")
+        print(f"[+] Server Socket started on {self.__host}:{self.__port}, waiting for connections!")
         try:
             while True:
                 client_socket, client_address = self.server_socket.accept()
                 print(f"[+] Accepted Connection from {client_address}")
 
                 try:
-                    self._handle_client(client_socket)
+                    self.__handle_client(client_socket)
                 except Exception as e:
                     print(f"[-] Error Handling the Client: {e}")
         except KeyboardInterrupt:
             print(f"[-] Server Socket is Shutting Down...")
         finally:
+            print(f"[-] Server Socket is now closed.")
             self.stop()
 
     def stop(self):
         self.server_socket.close()
 
-    def _handle_client(self, client_socket):
+    def __handle_client(self, client_socket):
         try:
             data = client_socket.recv(1024).decode('utf-8')
             if not data:
@@ -62,7 +63,7 @@ class ServerSocket:
             obj = content["object"]
             value = content["value"]
             print(f"    [++] Object: {obj}, Value: {value}")
-            self._performAction(obj.lower(), value.upper(), content)
+            self.__performAction(obj.lower(), value.upper(), content)
 
             # RESPOND TO CLIENT
             response = json.dumps({"Status": "Success", "Message": f"Received {obj.upper()} with value {value}"})
@@ -75,7 +76,7 @@ class ServerSocket:
             client_socket.close()
 
     @staticmethod
-    def _performAction(obj, value, content):
+    def __performAction(obj, value, content):
         arduino_ip = os.getenv('ARDUINO_IP')
         base_url = f"http://{arduino_ip}/{obj}/{value}"
 

@@ -6,16 +6,24 @@ const debug = std.debug;
 pub const ClientSocket = struct {
     stream: net.Stream,
     allocator: *std.mem.Allocator,
+    address: []const u8,
+    port: u16,
 
     pub fn init(allocator: *std.mem.Allocator, address: [:0]const u8, port: u16) !ClientSocket {
         var self = ClientSocket{
             .stream = undefined,
             .allocator = allocator,
+            .address = address,
+            .port = port,
         };
 
-        const address_buffer = try net.Address.parseIp4(address, port);
-        self.stream = try net.tcpConnectToAddress(address_buffer);
+        try self.reconnect();
         return self;
+    }
+
+    fn reconnect(self: *ClientSocket) !void {
+        const address_buffer = try net.Address.parseIp4(self.address, self.port);
+        self.stream = try net.tcpConnectToAddress(address_buffer);
     }
 
     pub fn deinit(self: *ClientSocket) void {
@@ -54,5 +62,9 @@ pub const ClientSocket = struct {
         } else {
             std.debug.print("No response received from Server. :(\n", .{});
         }
+
+        // CLOSE THE STREAM AND RECONNECT
+        self.stream.close();
+        try self.reconnect();
     }
 };

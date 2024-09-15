@@ -89,7 +89,7 @@ void loop() {
           client.println();
 
           bool handled = handleRequest(request, client);
-          if (!handled) client.println("<h3><center><p>ARDUINO UNO R4 WIFI WEB SERVER ON 192.168.1.21:80</p></center></h3>");
+          if (!handled) client.println("<h3><center><p>ARDUINO UNO R4 WIFI WEB SERVER IS ONLINE</p></center></h3>");
           client.println();
           break;
         }
@@ -134,3 +134,5 @@ bool handleRequest(String request, WiFiClient& client) {
   }
   return false;
 }
+
+// Browser: HTTP GET <arduino_ip>:80

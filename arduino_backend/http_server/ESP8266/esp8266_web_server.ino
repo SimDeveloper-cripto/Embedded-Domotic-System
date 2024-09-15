@@ -13,7 +13,7 @@ const int LED_1 = 3;       // LED D3 is mapped on number "1"
 */
 
 void greetUser() {
-  server.send(200, "text/plain", "Hello from ESP8266! WebServer Started! [192.168.1.25] :)");
+  server.send(200, "text/plain", "Hello from ESP8266! WebServer Started! :)");
 }
 
 void handleLED1On() {

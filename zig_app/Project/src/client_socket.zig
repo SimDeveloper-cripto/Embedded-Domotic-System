@@ -1,4 +1,5 @@
 const std = @import("std");
+const os = std.os;
 const net = std.net;
 const json = std.json;
 const debug = std.debug;

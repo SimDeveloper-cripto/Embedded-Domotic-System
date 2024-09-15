@@ -3,6 +3,7 @@ from server_socket import ServerSocket
 
 def run():
     server_socket = ServerSocket("localhost", 6969)
+    # server_socket = ServerSocket("0.0.0.0", 6969)
     try:
         server_socket.start()
     except KeyboardInterrupt:

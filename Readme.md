@@ -36,7 +36,7 @@ I'll show you the json exchanged between communications:
 
 ## Run
 
-* __Step 1__: Modify these two lines and then upload to your Arduino. <br />
+### Step 1: Modify these two lines and then upload to your Arduino. <br />
 
 ```bash
 const char* WIFI_SSID = ""; /* Here insert your SSID */
@@ -46,7 +46,7 @@ const char* WIFI_PASS = ""; /* Here insert your PASSWORD */
 Then, __run__ the code and have a look at the Serial Monitor. __Save__ the IP Address that will be shown. <br />
 Do not stop the execution. <br />
 
-* __Step 2__: Setup Python script. <br />
+### Step 2: Setup Python script. <br />
 
 You could use an IDE to do that. Install dependencies:
 
@@ -58,25 +58,25 @@ pip install python-dotenv requests
 In the same folder create a __.env__ file in which you are going to specify the following:
 
 ```bash
-ARDUINO_IP="" // Paste the Arduino IP Address!
+ARDUINO_IP = "" # Paste here the Arduino IP Address!
 ```
 
-* __Step 3__: Run scripts separately on two different terminals: <br />
+### Step 3: Run scripts separately on two different terminals. <br />
 
 ```bash
 cd python_backend_server_socket
 ./execute.bat
 ```
 
+```bash
+cd zig_app/Project # And SET .old_hash to current .hash
+zig build run
+```
+
+If you are on Linux, then:
+
 ```sh
 cd python_backend_server_socket
 chmod +x execute.sh
 .\execute.sh
 ```
-
-```bash
-cd zig_app/Project
-zig build run
-```
-
-### TODO: CREATE DOCKER CONTAINER FOR THE APP

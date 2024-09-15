@@ -21,7 +21,7 @@ cd Project && zig build run
 
 The frontend consists in a Zig app made with Raylib and Raygui which communicates with a Python script via __Socket__. <br />
 Architecture developed: __client-server__, with the Zig app being the client. <br />
-The Python script communicates via __HTTP__ with the Arduino (it provides some endpoints), which handles all the user requests to turn __on/off__ the lights. <br />
+The Python script communicates via __HTTP__ with the Arduino, which handles all the user requests to turn __ON/OFF__ the lights. <br />
 No worries, you can extend the work by making simple changes (the code is really easy to follow). You could also, for example, automate servo motors! <br /> 
 
 I'll show you the json exchanged between communications:
@@ -36,19 +36,21 @@ I'll show you the json exchanged between communications:
 
 ## Run
 
-### Step 1: Modify these two lines and then upload to your Arduino. <br />
+### Step 1: Modify these two lines and then upload to your Arduino <br />
+
+Upload the code located in __arduino_backend/http_server/WebServer/WebServer.ino__
 
 ```bash
 const char* WIFI_SSID = ""; /* Here insert your SSID */
 const char* WIFI_PASS = ""; /* Here insert your PASSWORD */
 ```
 
-Then, __run__ the code and have a look at the Serial Monitor. __Save__ the IP Address that will be shown. <br />
+Then, __run__ and have a look at the Serial Monitor. __Save__ the IP Address that will be shown. <br />
 Do not stop the execution. <br />
 
-### Step 2: Setup Python script. <br />
+### Step 2: Setup Python script and install dependencies <br />
 
-You could use an IDE to do that. Install dependencies:
+You could use an IDE like PyCharm to do that, but you could also do it using CLI:
 
 ```bash
 cd python_backend_server_socket
@@ -61,7 +63,7 @@ In the same folder create a __.env__ file in which you are going to specify the 
 ARDUINO_IP = "" # Paste here the Arduino IP Address!
 ```
 
-### Step 3: Run scripts separately on two different terminals. <br />
+### Step 3: Run scripts separately on two different terminals <br />
 
 ```bash
 cd python_backend_server_socket
@@ -69,7 +71,7 @@ cd python_backend_server_socket
 ```
 
 ```bash
-cd zig_app/Project # And SET .old_hash to current .hash
+cd zig_app/Project
 zig build run
 ```
 
